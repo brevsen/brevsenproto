@@ -28,3 +28,5 @@ jobs:
           git add gen/go
           git commit -m "BOT: regenerate grpc code"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
