@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package account.v1;
+
+import "common/v1/common.proto";
+
+
+// GetAccount
+message GetAccountRequest {
+  string account_id = 1;
+}
+message GetAccountResponse {
+  common.v1.Account account = 1;
+}
+
+// GenerateAccountLinkPath
+message GenerateAccountLinkPathRequest {
+  uint32 validity_days = 1;
+}
+message GenerateAccountLinkPathResponse {
+  string link_path = 1;
+}
+
+// ResolveAccountLinkPath
+message ResolveAccountLinkPathRequest {
+  string link_path = 1;
+}
+message ResolveAccountLinkPathResponse {
+  string account_id = 1;
+}
+
+// SendMessage
+message SendMessageRequest {
+  string destination = 1; // user_id or group_id
+  common.v1.MessageType message_type = 2;
+  string text = 3; // "hello!", "[IMAGE]", "[VIDEO]", "[GIF]", ...
+}
+message SendMessageResponse {
+  common.v1.Message message = 1;
+}
+
+
+service AccountService {
+  rpc GetAccount (GetAccountRequest) returns (GetAccountResponse);
+  rpc GenerateAccountLinkPath (GenerateAccountLinkPathRequest) returns (GenerateAccountLinkPathResponse);
+  rpc ResolveAccountLinkPath (ResolveAccountLinkPathRequest) returns (ResolveAccountLinkPathResponse);
+  rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
+}

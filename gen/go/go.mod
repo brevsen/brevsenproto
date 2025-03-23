@@ -1,0 +1,1 @@
+module github.com/brevsen/brevsenproto/gen/go

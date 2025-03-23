@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package common.v1;
+
+
+message Account {
+  string id = 1;
+  string display_name = 2;
+  string status_emoji = 3;
+  string status_message = 4;
+  string icon_path = 5;
+  string banner_path = 6;
+}
+
+
+enum MessageType {
+  MESSAGE_TYPE_UNSPECIFIED = 0;
+  MESSAGE_TYPE_TEXT = 1;
+  MESSAGE_TYPE_IMAGE = 2;
+  MESSAGE_TYPE_VIDEO = 3;
+  MESSAGE_TYPE_GIF = 4;
+}
+
+message Message {
+  string id = 1;
+  string origin = 2;
+  string destination = 3;
+
+  MessageType message_type = 4;
+  string text = 5;
+
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+
+enum OperationType {
+  OPERATION_TYPE_UNSPECIFIED = 0;
+}
+
+message Operation {
+  uint32 snapshot = 1;
+  OperationType operation_type = 2;
+  string param1 = 3;
+  string param2 = 4;
+  string param3 = 5;
+}

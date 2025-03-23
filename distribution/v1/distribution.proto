@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package distribution.v1;
+
+import "common/v1/common.proto";
+
+
+// FetchOperations
+message FetchOperationsRequest {
+  uint32 origin_snapshot = 1;
+}
+message FetchOperationsResponse {
+  common.v1.Operation operation = 1;
+}
+
+
+service DistributionService {
+  rpc FetchOperations (FetchOperationsRequest) returns (stream FetchOperationsResponse);
+}
