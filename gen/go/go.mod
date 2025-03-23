@@ -1,1 +1,1 @@
-module github.com/brevsen/brevsenproto/gen/go
+module github.com/brevson/brevsonproto
