@@ -16,3 +16,11 @@ jobs:
       # Update go.mod
       - uses: actions/setup-go@v5
       - run: go mod tidy
+      - name: commit
+        run: |
+          [[ ! $(git diff --exit-code go ts) ]] && echo "Nothing to commit." && exit 0
+          git config user.name "BUF BOT"
+          git pull
+          git add gen/go
+          git commit -m "BOT: regenerate grpc code"
+          git push
