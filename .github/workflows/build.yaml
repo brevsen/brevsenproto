@@ -12,7 +12,12 @@ jobs:
       # Install the `buf` CLI
       - uses: bufbuild/buf-setup-action@v1.50.0
       # Run `buf generate`
-      - run: buf generate
+      - name: Generate gRPC Code
+        run: |
+          buf --version
+          ls
+          buf generate
+          ls
       # Update go.mod
       - uses: actions/setup-go@v5
       - run: go mod tidy
