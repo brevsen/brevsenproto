@@ -15,9 +15,7 @@ jobs:
       - name: Generate gRPC Code
         run: |
           buf --version
-          ls
           buf generate
-          ls
       # Update go.mod
       - uses: actions/setup-go@v5
       - run: go mod tidy
