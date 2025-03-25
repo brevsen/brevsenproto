@@ -55,6 +55,14 @@ message AddFriendWithIdRequest {
 message AddFriendWithIdResponse {
 }
 
+// BlockAccountWithId
+// AccountIdを用いてブロックする
+message BlockAccountWithIdRequest {
+  string account_id = 1;
+}
+message BlockAccountWithIdResponse {
+}
+
 // SendMessage
 // メッセージを送信する
 message SendMessageRequest {
@@ -74,5 +82,6 @@ service AccountService {
   rpc ResolveAccountLinkPath (ResolveAccountLinkPathRequest) returns (ResolveAccountLinkPathResponse);
   rpc DeleteAccount (DeleteAccountRequest) returns (DeleteAccountResponse);
   rpc AddFriendWithId (AddFriendWithIdRequest) returns (AddFriendWithIdResponse);
+  rpc BlockAccountWithId (BlockAccountWithIdRequest) returns (BlockAccountWithIdResponse);
   rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
 }
