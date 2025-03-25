@@ -36,12 +36,24 @@ const (
 	// AccountServiceGetAccountProcedure is the fully-qualified name of the AccountService's GetAccount
 	// RPC.
 	AccountServiceGetAccountProcedure = "/account.v1.AccountService/GetAccount"
+	// AccountServiceGetAccountWithIdProcedure is the fully-qualified name of the AccountService's
+	// GetAccountWithId RPC.
+	AccountServiceGetAccountWithIdProcedure = "/account.v1.AccountService/GetAccountWithId"
 	// AccountServiceGenerateAccountLinkPathProcedure is the fully-qualified name of the
 	// AccountService's GenerateAccountLinkPath RPC.
 	AccountServiceGenerateAccountLinkPathProcedure = "/account.v1.AccountService/GenerateAccountLinkPath"
 	// AccountServiceResolveAccountLinkPathProcedure is the fully-qualified name of the AccountService's
 	// ResolveAccountLinkPath RPC.
 	AccountServiceResolveAccountLinkPathProcedure = "/account.v1.AccountService/ResolveAccountLinkPath"
+	// AccountServiceDeleteAccountProcedure is the fully-qualified name of the AccountService's
+	// DeleteAccount RPC.
+	AccountServiceDeleteAccountProcedure = "/account.v1.AccountService/DeleteAccount"
+	// AccountServiceAddFriendWithIdProcedure is the fully-qualified name of the AccountService's
+	// AddFriendWithId RPC.
+	AccountServiceAddFriendWithIdProcedure = "/account.v1.AccountService/AddFriendWithId"
+	// AccountServiceBlockAccountWithIdProcedure is the fully-qualified name of the AccountService's
+	// BlockAccountWithId RPC.
+	AccountServiceBlockAccountWithIdProcedure = "/account.v1.AccountService/BlockAccountWithId"
 	// AccountServiceSendMessageProcedure is the fully-qualified name of the AccountService's
 	// SendMessage RPC.
 	AccountServiceSendMessageProcedure = "/account.v1.AccountService/SendMessage"
@@ -50,8 +62,12 @@ const (
 // AccountServiceClient is a client for the account.v1.AccountService service.
 type AccountServiceClient interface {
 	GetAccount(context.Context, *connect.Request[v1.GetAccountRequest]) (*connect.Response[v1.GetAccountResponse], error)
+	GetAccountWithId(context.Context, *connect.Request[v1.GetAccountWithIdRequest]) (*connect.Response[v1.GetAccountWithIdResponse], error)
 	GenerateAccountLinkPath(context.Context, *connect.Request[v1.GenerateAccountLinkPathRequest]) (*connect.Response[v1.GenerateAccountLinkPathResponse], error)
 	ResolveAccountLinkPath(context.Context, *connect.Request[v1.ResolveAccountLinkPathRequest]) (*connect.Response[v1.ResolveAccountLinkPathResponse], error)
+	DeleteAccount(context.Context, *connect.Request[v1.DeleteAccountRequest]) (*connect.Response[v1.DeleteAccountResponse], error)
+	AddFriendWithId(context.Context, *connect.Request[v1.AddFriendWithIdRequest]) (*connect.Response[v1.AddFriendWithIdResponse], error)
+	BlockAccountWithId(context.Context, *connect.Request[v1.BlockAccountWithIdRequest]) (*connect.Response[v1.BlockAccountWithIdResponse], error)
 	SendMessage(context.Context, *connect.Request[v1.SendMessageRequest]) (*connect.Response[v1.SendMessageResponse], error)
 }
 
@@ -72,6 +88,12 @@ func NewAccountServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(accountServiceMethods.ByName("GetAccount")),
 			connect.WithClientOptions(opts...),
 		),
+		getAccountWithId: connect.NewClient[v1.GetAccountWithIdRequest, v1.GetAccountWithIdResponse](
+			httpClient,
+			baseURL+AccountServiceGetAccountWithIdProcedure,
+			connect.WithSchema(accountServiceMethods.ByName("GetAccountWithId")),
+			connect.WithClientOptions(opts...),
+		),
 		generateAccountLinkPath: connect.NewClient[v1.GenerateAccountLinkPathRequest, v1.GenerateAccountLinkPathResponse](
 			httpClient,
 			baseURL+AccountServiceGenerateAccountLinkPathProcedure,
@@ -82,6 +104,24 @@ func NewAccountServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			httpClient,
 			baseURL+AccountServiceResolveAccountLinkPathProcedure,
 			connect.WithSchema(accountServiceMethods.ByName("ResolveAccountLinkPath")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteAccount: connect.NewClient[v1.DeleteAccountRequest, v1.DeleteAccountResponse](
+			httpClient,
+			baseURL+AccountServiceDeleteAccountProcedure,
+			connect.WithSchema(accountServiceMethods.ByName("DeleteAccount")),
+			connect.WithClientOptions(opts...),
+		),
+		addFriendWithId: connect.NewClient[v1.AddFriendWithIdRequest, v1.AddFriendWithIdResponse](
+			httpClient,
+			baseURL+AccountServiceAddFriendWithIdProcedure,
+			connect.WithSchema(accountServiceMethods.ByName("AddFriendWithId")),
+			connect.WithClientOptions(opts...),
+		),
+		blockAccountWithId: connect.NewClient[v1.BlockAccountWithIdRequest, v1.BlockAccountWithIdResponse](
+			httpClient,
+			baseURL+AccountServiceBlockAccountWithIdProcedure,
+			connect.WithSchema(accountServiceMethods.ByName("BlockAccountWithId")),
 			connect.WithClientOptions(opts...),
 		),
 		sendMessage: connect.NewClient[v1.SendMessageRequest, v1.SendMessageResponse](
@@ -96,14 +136,23 @@ func NewAccountServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 // accountServiceClient implements AccountServiceClient.
 type accountServiceClient struct {
 	getAccount              *connect.Client[v1.GetAccountRequest, v1.GetAccountResponse]
+	getAccountWithId        *connect.Client[v1.GetAccountWithIdRequest, v1.GetAccountWithIdResponse]
 	generateAccountLinkPath *connect.Client[v1.GenerateAccountLinkPathRequest, v1.GenerateAccountLinkPathResponse]
 	resolveAccountLinkPath  *connect.Client[v1.ResolveAccountLinkPathRequest, v1.ResolveAccountLinkPathResponse]
+	deleteAccount           *connect.Client[v1.DeleteAccountRequest, v1.DeleteAccountResponse]
+	addFriendWithId         *connect.Client[v1.AddFriendWithIdRequest, v1.AddFriendWithIdResponse]
+	blockAccountWithId      *connect.Client[v1.BlockAccountWithIdRequest, v1.BlockAccountWithIdResponse]
 	sendMessage             *connect.Client[v1.SendMessageRequest, v1.SendMessageResponse]
 }
 
 // GetAccount calls account.v1.AccountService.GetAccount.
 func (c *accountServiceClient) GetAccount(ctx context.Context, req *connect.Request[v1.GetAccountRequest]) (*connect.Response[v1.GetAccountResponse], error) {
 	return c.getAccount.CallUnary(ctx, req)
+}
+
+// GetAccountWithId calls account.v1.AccountService.GetAccountWithId.
+func (c *accountServiceClient) GetAccountWithId(ctx context.Context, req *connect.Request[v1.GetAccountWithIdRequest]) (*connect.Response[v1.GetAccountWithIdResponse], error) {
+	return c.getAccountWithId.CallUnary(ctx, req)
 }
 
 // GenerateAccountLinkPath calls account.v1.AccountService.GenerateAccountLinkPath.
@@ -116,6 +165,21 @@ func (c *accountServiceClient) ResolveAccountLinkPath(ctx context.Context, req *
 	return c.resolveAccountLinkPath.CallUnary(ctx, req)
 }
 
+// DeleteAccount calls account.v1.AccountService.DeleteAccount.
+func (c *accountServiceClient) DeleteAccount(ctx context.Context, req *connect.Request[v1.DeleteAccountRequest]) (*connect.Response[v1.DeleteAccountResponse], error) {
+	return c.deleteAccount.CallUnary(ctx, req)
+}
+
+// AddFriendWithId calls account.v1.AccountService.AddFriendWithId.
+func (c *accountServiceClient) AddFriendWithId(ctx context.Context, req *connect.Request[v1.AddFriendWithIdRequest]) (*connect.Response[v1.AddFriendWithIdResponse], error) {
+	return c.addFriendWithId.CallUnary(ctx, req)
+}
+
+// BlockAccountWithId calls account.v1.AccountService.BlockAccountWithId.
+func (c *accountServiceClient) BlockAccountWithId(ctx context.Context, req *connect.Request[v1.BlockAccountWithIdRequest]) (*connect.Response[v1.BlockAccountWithIdResponse], error) {
+	return c.blockAccountWithId.CallUnary(ctx, req)
+}
+
 // SendMessage calls account.v1.AccountService.SendMessage.
 func (c *accountServiceClient) SendMessage(ctx context.Context, req *connect.Request[v1.SendMessageRequest]) (*connect.Response[v1.SendMessageResponse], error) {
 	return c.sendMessage.CallUnary(ctx, req)
@@ -124,8 +188,12 @@ func (c *accountServiceClient) SendMessage(ctx context.Context, req *connect.Req
 // AccountServiceHandler is an implementation of the account.v1.AccountService service.
 type AccountServiceHandler interface {
 	GetAccount(context.Context, *connect.Request[v1.GetAccountRequest]) (*connect.Response[v1.GetAccountResponse], error)
+	GetAccountWithId(context.Context, *connect.Request[v1.GetAccountWithIdRequest]) (*connect.Response[v1.GetAccountWithIdResponse], error)
 	GenerateAccountLinkPath(context.Context, *connect.Request[v1.GenerateAccountLinkPathRequest]) (*connect.Response[v1.GenerateAccountLinkPathResponse], error)
 	ResolveAccountLinkPath(context.Context, *connect.Request[v1.ResolveAccountLinkPathRequest]) (*connect.Response[v1.ResolveAccountLinkPathResponse], error)
+	DeleteAccount(context.Context, *connect.Request[v1.DeleteAccountRequest]) (*connect.Response[v1.DeleteAccountResponse], error)
+	AddFriendWithId(context.Context, *connect.Request[v1.AddFriendWithIdRequest]) (*connect.Response[v1.AddFriendWithIdResponse], error)
+	BlockAccountWithId(context.Context, *connect.Request[v1.BlockAccountWithIdRequest]) (*connect.Response[v1.BlockAccountWithIdResponse], error)
 	SendMessage(context.Context, *connect.Request[v1.SendMessageRequest]) (*connect.Response[v1.SendMessageResponse], error)
 }
 
@@ -142,6 +210,12 @@ func NewAccountServiceHandler(svc AccountServiceHandler, opts ...connect.Handler
 		connect.WithSchema(accountServiceMethods.ByName("GetAccount")),
 		connect.WithHandlerOptions(opts...),
 	)
+	accountServiceGetAccountWithIdHandler := connect.NewUnaryHandler(
+		AccountServiceGetAccountWithIdProcedure,
+		svc.GetAccountWithId,
+		connect.WithSchema(accountServiceMethods.ByName("GetAccountWithId")),
+		connect.WithHandlerOptions(opts...),
+	)
 	accountServiceGenerateAccountLinkPathHandler := connect.NewUnaryHandler(
 		AccountServiceGenerateAccountLinkPathProcedure,
 		svc.GenerateAccountLinkPath,
@@ -154,6 +228,24 @@ func NewAccountServiceHandler(svc AccountServiceHandler, opts ...connect.Handler
 		connect.WithSchema(accountServiceMethods.ByName("ResolveAccountLinkPath")),
 		connect.WithHandlerOptions(opts...),
 	)
+	accountServiceDeleteAccountHandler := connect.NewUnaryHandler(
+		AccountServiceDeleteAccountProcedure,
+		svc.DeleteAccount,
+		connect.WithSchema(accountServiceMethods.ByName("DeleteAccount")),
+		connect.WithHandlerOptions(opts...),
+	)
+	accountServiceAddFriendWithIdHandler := connect.NewUnaryHandler(
+		AccountServiceAddFriendWithIdProcedure,
+		svc.AddFriendWithId,
+		connect.WithSchema(accountServiceMethods.ByName("AddFriendWithId")),
+		connect.WithHandlerOptions(opts...),
+	)
+	accountServiceBlockAccountWithIdHandler := connect.NewUnaryHandler(
+		AccountServiceBlockAccountWithIdProcedure,
+		svc.BlockAccountWithId,
+		connect.WithSchema(accountServiceMethods.ByName("BlockAccountWithId")),
+		connect.WithHandlerOptions(opts...),
+	)
 	accountServiceSendMessageHandler := connect.NewUnaryHandler(
 		AccountServiceSendMessageProcedure,
 		svc.SendMessage,
@@ -164,10 +256,18 @@ func NewAccountServiceHandler(svc AccountServiceHandler, opts ...connect.Handler
 		switch r.URL.Path {
 		case AccountServiceGetAccountProcedure:
 			accountServiceGetAccountHandler.ServeHTTP(w, r)
+		case AccountServiceGetAccountWithIdProcedure:
+			accountServiceGetAccountWithIdHandler.ServeHTTP(w, r)
 		case AccountServiceGenerateAccountLinkPathProcedure:
 			accountServiceGenerateAccountLinkPathHandler.ServeHTTP(w, r)
 		case AccountServiceResolveAccountLinkPathProcedure:
 			accountServiceResolveAccountLinkPathHandler.ServeHTTP(w, r)
+		case AccountServiceDeleteAccountProcedure:
+			accountServiceDeleteAccountHandler.ServeHTTP(w, r)
+		case AccountServiceAddFriendWithIdProcedure:
+			accountServiceAddFriendWithIdHandler.ServeHTTP(w, r)
+		case AccountServiceBlockAccountWithIdProcedure:
+			accountServiceBlockAccountWithIdHandler.ServeHTTP(w, r)
 		case AccountServiceSendMessageProcedure:
 			accountServiceSendMessageHandler.ServeHTTP(w, r)
 		default:
@@ -183,12 +283,28 @@ func (UnimplementedAccountServiceHandler) GetAccount(context.Context, *connect.R
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.GetAccount is not implemented"))
 }
 
+func (UnimplementedAccountServiceHandler) GetAccountWithId(context.Context, *connect.Request[v1.GetAccountWithIdRequest]) (*connect.Response[v1.GetAccountWithIdResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.GetAccountWithId is not implemented"))
+}
+
 func (UnimplementedAccountServiceHandler) GenerateAccountLinkPath(context.Context, *connect.Request[v1.GenerateAccountLinkPathRequest]) (*connect.Response[v1.GenerateAccountLinkPathResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.GenerateAccountLinkPath is not implemented"))
 }
 
 func (UnimplementedAccountServiceHandler) ResolveAccountLinkPath(context.Context, *connect.Request[v1.ResolveAccountLinkPathRequest]) (*connect.Response[v1.ResolveAccountLinkPathResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.ResolveAccountLinkPath is not implemented"))
+}
+
+func (UnimplementedAccountServiceHandler) DeleteAccount(context.Context, *connect.Request[v1.DeleteAccountRequest]) (*connect.Response[v1.DeleteAccountResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.DeleteAccount is not implemented"))
+}
+
+func (UnimplementedAccountServiceHandler) AddFriendWithId(context.Context, *connect.Request[v1.AddFriendWithIdRequest]) (*connect.Response[v1.AddFriendWithIdResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.AddFriendWithId is not implemented"))
+}
+
+func (UnimplementedAccountServiceHandler) BlockAccountWithId(context.Context, *connect.Request[v1.BlockAccountWithIdRequest]) (*connect.Response[v1.BlockAccountWithIdResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("account.v1.AccountService.BlockAccountWithId is not implemented"))
 }
 
 func (UnimplementedAccountServiceHandler) SendMessage(context.Context, *connect.Request[v1.SendMessageRequest]) (*connect.Response[v1.SendMessageResponse], error) {
