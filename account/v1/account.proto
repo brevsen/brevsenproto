@@ -13,6 +13,15 @@ message GetAccountResponse {
   common.v1.Account account = 1;
 }
 
+// GetAccountWithId
+// アカウントIDを用いて指定するアカウントのProfileを取得する
+message GetAccountWithIdRequest {
+  string account_id = 1;
+}
+message GetAccountWithIdResponse {
+  common.v1.Account account = 1;
+}
+
 // GenerateAccountLinkPath
 // 有効期限を指定して追加用URLのPath部分を生成する(例: "brevsen://share/account/$random_string_here"の末尾部分)
 message GenerateAccountLinkPathRequest {
@@ -45,6 +54,7 @@ message SendMessageResponse {
 
 service AccountService {
   rpc GetAccount (GetAccountRequest) returns (GetAccountResponse);
+  rpc GetAccountWithId (GetAccountWithIdRequest) returns (GetAccountWithIdResponse);
   rpc GenerateAccountLinkPath (GenerateAccountLinkPathRequest) returns (GenerateAccountLinkPathResponse);
   rpc ResolveAccountLinkPath (ResolveAccountLinkPathRequest) returns (ResolveAccountLinkPathResponse);
   rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
