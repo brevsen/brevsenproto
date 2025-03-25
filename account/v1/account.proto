@@ -6,6 +6,7 @@ import "common/v1/common.proto";
 
 
 // GetAccount
+// 自身のProfileを取得する
 message GetAccountRequest {
 }
 message GetAccountResponse {
@@ -13,6 +14,7 @@ message GetAccountResponse {
 }
 
 // GenerateAccountLinkPath
+// 有効期限を指定して追加用URLのPath部分を生成する(例: "brevsen://share/account/$random_string_here"の末尾部分)
 message GenerateAccountLinkPathRequest {
   uint32 validity_days = 1;
 }
@@ -21,6 +23,7 @@ message GenerateAccountLinkPathResponse {
 }
 
 // ResolveAccountLinkPath
+// 追加用URLのPath部分から(例: "$random_string_here")アカウントIDを取得する
 message ResolveAccountLinkPathRequest {
   string link_path = 1;
 }
@@ -29,6 +32,7 @@ message ResolveAccountLinkPathResponse {
 }
 
 // SendMessage
+// メッセージを送信する
 message SendMessageRequest {
   string destination = 1; // user_id or group_id
   common.v1.MessageType message_type = 2;
