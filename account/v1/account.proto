@@ -47,6 +47,14 @@ message DeleteAccountRequest {
 message DeleteAccountResponse {
 }
 
+// AddFriendWithId
+// AccountIdを用いて友達追加する
+message AddFriendWithIdRequest {
+  string account_id = 1;
+}
+message AddFriendWithIdResponse {
+}
+
 // SendMessage
 // メッセージを送信する
 message SendMessageRequest {
@@ -65,5 +73,6 @@ service AccountService {
   rpc GenerateAccountLinkPath (GenerateAccountLinkPathRequest) returns (GenerateAccountLinkPathResponse);
   rpc ResolveAccountLinkPath (ResolveAccountLinkPathRequest) returns (ResolveAccountLinkPathResponse);
   rpc DeleteAccount (DeleteAccountRequest) returns (DeleteAccountResponse);
+  rpc AddFriendWithId (AddFriendWithIdRequest) returns (AddFriendWithIdResponse);
   rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
 }
