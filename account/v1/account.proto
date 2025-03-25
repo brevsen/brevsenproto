@@ -40,6 +40,13 @@ message ResolveAccountLinkPathResponse {
   string account_id = 1;
 }
 
+// DeleteAccount
+// アカウントを削除する
+message DeleteAccountRequest {
+}
+message DeleteAccountResponse {
+}
+
 // SendMessage
 // メッセージを送信する
 message SendMessageRequest {
@@ -57,5 +64,6 @@ service AccountService {
   rpc GetAccountWithId (GetAccountWithIdRequest) returns (GetAccountWithIdResponse);
   rpc GenerateAccountLinkPath (GenerateAccountLinkPathRequest) returns (GenerateAccountLinkPathResponse);
   rpc ResolveAccountLinkPath (ResolveAccountLinkPathRequest) returns (ResolveAccountLinkPathResponse);
+  rpc DeleteAccount (DeleteAccountRequest) returns (DeleteAccountResponse);
   rpc SendMessage (SendMessageRequest) returns (SendMessageResponse);
 }
