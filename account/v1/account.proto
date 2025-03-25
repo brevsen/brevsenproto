@@ -7,7 +7,6 @@ import "common/v1/common.proto";
 
 // GetAccount
 message GetAccountRequest {
-  string account_id = 1;
 }
 message GetAccountResponse {
   common.v1.Account account = 1;
