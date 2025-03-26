@@ -9,12 +9,22 @@ managed:
       value: github.com/brevsen/brevsenproto/gen/go
 
 plugins:
+  # Go Support
   - remote: buf.build/protocolbuffers/go
     out: gen/go
     opt: paths=source_relative
   - remote: buf.build/connectrpc/go
     out: gen/go
     opt: paths=source_relative
-
+  # Swift Support
+  - remote: buf.build/connectrpc/swift
+    out: Sources/brevsenproto/Generated
+    opt:
+      - GenerateAsyncMethods=true
+      - GenerateCallbackMethods=true
+      - Visibility=Public
+  - remote: buf.build/apple/swift
+    out: Sources/brevsenproto/Generated
+    opt: Visibility=Public
 #inputs:
 #  - directory: proto

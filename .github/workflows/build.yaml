@@ -30,3 +30,14 @@ jobs:
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check Swift Code
+        run: |
+          [[ ! $(git diff --exit-code Sources) ]] && echo "Nothing to commit." && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git pull
+          git add Sources
+          git commit -m "BOT: regenerate grpc code"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
